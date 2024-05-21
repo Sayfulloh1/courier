@@ -11,9 +11,7 @@ class CompletedOrdersPage extends StatefulWidget {
 }
 
 class _CompletedOrdersPageState extends State<CompletedOrdersPage> {
-
   List<Map<String, dynamic>> completedOrders = [];
-
 
   Future<void> fetchAllCompletedOrders() async {
     CourierRepositoryImpl repository = CourierRepositoryImpl();
@@ -35,20 +33,18 @@ class _CompletedOrdersPageState extends State<CompletedOrdersPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         // leading: Container(),
         centerTitle: true,
         title: const Text(
-          "Новые заказы",
+          "Завершенные заказы",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
-
       body: Padding(
         padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .03, vertical: 20),
@@ -56,9 +52,7 @@ backgroundColor: Colors.grey[100],
           itemBuilder: (context, index) {
             var order = completedOrders[index];
             return GestureDetector(
-              onTap: () {
-
-              },
+              onTap: () {},
               child: Container(
                 margin: EdgeInsets.only(top: 12),
                 width: MediaQuery.of(context).size.width,
@@ -82,28 +76,49 @@ backgroundColor: Colors.grey[100],
                               fontSize: 20,
                             ),
                           ),
+                          trailing: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(0xffDCFCE7),
+                            ),
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              "Доставлено",
+                              style: TextStyle(color: Color(0xff15803D)),
+                            ),
+                          ),
                         ),
                         ListTile(
                           leading: Container(
                               width: 20,
                               height: 20,
-                              child: Image.asset('assets/images/person.png')),
-                          title: Text(order['client_first_name'] +
-                              ' ' +
-                              order['client_last_name']),
+                              child: Image.asset('assets/images/location.png')),
+                          title: Text(order['delivery_addr_name']),
                         ),
-
                         ListTile(
                           leading: Container(
                             width: 20,
                             height: 20,
-                            child: Image.asset('assets/images/location.png'),
+                            child: Image.asset('assets/images/calendar.png'),
                           ),
                           title: Text(
-                            order['delivery_addr_name'],
+                            order['created_at'].toString().substring(0,10),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
+                        ),
+                        ListTile(
+                          leading: Text(
+                            '+' + order['total_price'].toString() +' сум',
+                            style: TextStyle(
+                              color: Color(0xffFF439D),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+
                         ),
                       ],
                     ),

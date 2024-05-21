@@ -1,4 +1,5 @@
 import 'package:courier_app/feature/courier/data/repositories/courier_repository_impl.dart';
+import 'package:courier_app/feature/courier/presentation/pages/main/main_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,11 +15,10 @@ class OrderDetailsPage extends StatefulWidget {
 }
 
 class _OrderDetailsPageState extends State<OrderDetailsPage> {
-
   bool isPicked = false;
   bool isGived = false;
 
-   makePhoneCall(String phoneNumber) async {
+  makePhoneCall(String phoneNumber) async {
     String url = 'tel:$phoneNumber';
     if (await canLaunch(url)) {
       await launch(url);
@@ -27,7 +27,6 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     }
   }
 
-  
   _launchURL(String lat, String long) async {
     String url = 'https://yandex.ru/maps/?ll=$lat,$long';
     if (await launch(url)) {
@@ -37,7 +36,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     }
   }
 
-  getDeliveryOrder()async{
+  getDeliveryOrder() async {
     CourierRepositoryImpl repository = CourierRepositoryImpl();
     var result = await repository.pickDeliver(widget.order["id"]);
 
@@ -45,14 +44,14 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Error occurred: $left")));
     }, (right) {
-      if(right["code"]==200){
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("Вы успешно получили доставку")));
+      if (right["code"] == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Вы успешно получили доставку")));
       }
-
     });
   }
-  giveDeliveryOrder()async{
+
+  giveDeliveryOrder() async {
     CourierRepositoryImpl repository = CourierRepositoryImpl();
     var result = await repository.orderDelivered(widget.order["id"]);
 
@@ -60,11 +59,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Error occurred: $left")));
     }, (right) {
-      if(right["code"]==200){
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text("You successfully give order")));
+      if (right["code"] == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("You successfully give order")));
       }
-
     });
   }
 
@@ -97,10 +95,13 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Center(
-                          child: Text('Забрать доставку',style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w500,
-                          ),),
+                          child: Text(
+                            'Забрать доставку',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                         ListTile(
                           leading: const Text(
@@ -224,19 +225,18 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 primary: false,
                 itemBuilder: (context, index) {
                   return Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
                     width: width(context),
-
-
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.white,
                       ),
                       child: Row(
-
                         children: [
                           Container(
-                            margin:const EdgeInsets.symmetric(vertical: 10,horizontal: 8),
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 8),
                             width: width(context) * .2,
                             height: width(context) * .2,
                             child: Image.network(
@@ -289,7 +289,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 },
                 itemCount: widget.order['products'].length,
               ),
-               SizedBox(
+              SizedBox(
                 height: height(context) * .05,
               ),
               SizedBox(
@@ -314,7 +314,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         Center(
                           child: Text(
                             textAlign: TextAlign.center,
-                            '${widget.order["delivery_addr_name"]}',                        ),
+                            '${widget.order["delivery_addr_name"]}',
+                          ),
                         ),
                         const SizedBox(height: 10),
                         Divider(
@@ -326,94 +327,101 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         Center(
                           child: SizedBox(
                             width: width(context) * .8,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.phone_outlined,
-                                  color: Colors.blue,
-                                ),
-                                const SizedBox(width: 10),
-                                TextButton(
-                                  onPressed: (){
-                                    makePhoneCall(widget.order["client_phone_number"]);
-                                  },
-                                  child: const Text(
+                            child: TextButton(
+                              onPressed: () {
+                                makePhoneCall(
+                                    widget.order["client_phone_number"]);
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.phone_outlined,
+                                    color: Colors.blue,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
                                     'Позвонить клиенту',
                                     style: TextStyle(
                                         color: Colors.blue,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   ),
                 ),
               ),
               SizedBox(
-                height: height(context) * .1,
+                height: height(context) * .05,
               ),
-            !isPicked?
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor:  Colors.blue,
-                minimumSize: Size(width(context), height(context) * .05),
-              ),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+              !isPicked
+                  ? ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        minimumSize:
+                            Size(width(context), height(context) * .05),
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('Нет'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await getDeliveryOrder();
+                                  setState(() {
+                                    isPicked = true;
+                                  });
+                                  popOne();
+                                },
+                                child: const Text('Дa'),
+                              ),
+                            ],
+                            title: const Text('Подтверждение'),
+                            contentPadding: const EdgeInsets.all(20),
+                            content: const Text("Хотите получить доставку?"),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Забрать доставку",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  : !isGived
+                      ? ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            minimumSize:
+                                Size(width(context), height(context) * .06),
+                          ),
+                          onPressed: () {
+                            print(widget.order['delivery_addr_lat']);
+                            print(widget.order['delivery_addr_long']);
 
-                        child: const Text('Нет'),
-                      ),
-                      TextButton(
-                        onPressed: () async{
-                          await getDeliveryOrder();
-                          setState(() {
-                            isPicked = true;
-                          });
-                          pop();
-                        },
-                        child: const Text('Дa'),
-                      ),
-                    ],
-                    title: const Text('Подтверждение'),
-                    contentPadding: const EdgeInsets.all(20),
-                    content: const Text("Хотите получить доставку?"),
-                  ),
-                );
-              },
-              child: const Text(
-                "Забрать доставку",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ):
-            !isGived?ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                minimumSize: Size(width(context), height(context) * .06),
-              ),
-              onPressed: () {
-                 _launchURL(widget.order['delivery_addr_lat'].toString(),widget.order['delivery_addr_lot'].toString());
-                 setState(() {
-                   isGived = true;
-                   print(isGived);
-                 });
-                /*showDialog(
+                            _launchURL(
+                                widget.order['delivery_addr_lat'].toString(),
+                                widget.order['delivery_addr_long'].toString());
+                            setState(() {
+                              isGived = true;
+                              print(isGived);
+                            });
+                            /*showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
                     actions: [
@@ -437,55 +445,56 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     content: Text("Хотите получить доставку?"),
                   ),
                 );*/
-              },
-              child: const Text(
-                "Поехать к клиенту",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ):
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                minimumSize: Size(width(context), height(context) * .06),
-              ),
-              onPressed: () {
-                // _launchURL();
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-
-                        child: Text('Нет'),
-                      ),
-                      TextButton(
-                        onPressed: () async{
-                          await giveDeliveryOrder();
-                          pop();
-                        },
-                        child: Text('Да'),
-                      ),
-                    ],
-                    title: Text('Подтверждение'),
-                    contentPadding: EdgeInsets.all(20),
-                    content: Text("Вы действительно доставили заказ?"),
-                  ),
-                );
-              },
-              child: const Text(
-                "Отдать заказ",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ),
+                          },
+                          child: const Text(
+                            "Поехать к клиенту",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        )
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            minimumSize:
+                                Size(width(context), height(context) * .06),
+                          ),
+                          onPressed: () {
+                            // _launchURL();
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('Нет'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      await giveDeliveryOrder();
+                                      pop();
+                                    },
+                                    child: Text('Да'),
+                                  ),
+                                ],
+                                title: Text('Подтверждение'),
+                                contentPadding: EdgeInsets.all(20),
+                                content:
+                                    Text("Вы действительно доставили заказ?"),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Отдать заказ",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
             ],
           ),
         ),
@@ -493,8 +502,12 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     );
   }
 
-  void pop() {Navigator.pop(context);}
+  void pop() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => MyPages()));
+  }
 
-
-
+  void popOne() {
+    Navigator.pop(context);
+  }
 }

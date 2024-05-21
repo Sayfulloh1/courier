@@ -1,6 +1,7 @@
 import 'package:courier_app/feature/courier/presentation/pages/splash/splash_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../data/repositories/courier_repository_impl.dart';
 import '../../../resources/values_manager.dart';
@@ -61,60 +62,62 @@ class _NewOrdersPageState extends State<NewOrdersPage> {
 
       child: Container(
         height: height(context)*.3,
-        color: Colors.yellow,
+        color: Colors.grey[100],
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-              color: Colors.blue,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(height: 10),
-                  Row(
+            Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                  color: Colors.blue,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Icon(
-                        CupertinoIcons.profile_circled,
-                        color: Colors.white,
-                        size: 70,
-                      ),
-                      SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      SizedBox(height: 10),
+                      Row(
                         children: [
-                          Text(
-                            "Erkin A.",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
+                          Icon(
+                            CupertinoIcons.profile_circled,
+                            color: Colors.white,
+                            size: 70,
                           ),
-                          Text(
-                            "+998903901898",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
+                          SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Erkin A.",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Text(
+                                "+998903901898",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width(context) * .03),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Container(
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width(context) * .03),
+                  child: Container(
                     margin: EdgeInsets.only(top: 20),
                     width: width(context),
 
-                    child: Card(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: ListTile(
                         leading: Icon(
                           Icons.notifications_none,
@@ -127,6 +130,7 @@ class _NewOrdersPageState extends State<NewOrdersPage> {
                         ),
                         trailing: Switch(
                           activeColor: Colors.blue,
+
                           onChanged: (val) {
                             setState(() {
                               hasNotificationOn = !hasNotificationOn;
@@ -137,6 +141,17 @@ class _NewOrdersPageState extends State<NewOrdersPage> {
                       ),
                     ),
                   ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: width(context) * .03),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     width: width(context)*.8,
