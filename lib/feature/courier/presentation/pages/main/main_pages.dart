@@ -1,6 +1,5 @@
 import 'package:courier_app/feature/courier/presentation/pages/main/completed_orders/completed_orders_page.dart';
 import 'package:courier_app/feature/courier/presentation/pages/main/new_orders/new_orders_page.dart';
-import 'package:courier_app/feature/courier/presentation/pages/main/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -28,7 +27,6 @@ class _MyPagesState extends State<MyPages> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: PageView(
@@ -38,9 +36,9 @@ class _MyPagesState extends State<MyPages> {
             selected = index;
           });
         },
-        children: [
-          const NewOrdersPage(),
-          const CompletedOrdersPage(),
+        children: const [
+          NewOrdersPage(),
+          CompletedOrdersPage(),
 
         ],
       ),

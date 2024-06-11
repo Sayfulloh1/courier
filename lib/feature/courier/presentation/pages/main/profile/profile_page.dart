@@ -16,9 +16,9 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: PreferredSize(
         preferredSize: Size(width(context), height(context) * .25),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
           color: Colors.blue,
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
@@ -69,17 +69,17 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
 
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               width: width(context),
 
               child: Card(
                 child: ListTile(
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.notifications_none,
                     size: 30,
                     color: Colors.blue,
                   ),
-                  title: Text(
+                  title: const Text(
                     'Уведомления',
                     style: TextStyle(fontSize: 25),
                   ),
@@ -92,14 +92,14 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               width: width(context)*.8,
               child: Row(
 
                 children: [
-                  Icon(Icons.logout,color: Colors.red,size: 20,),
-                  SizedBox(width: 8),
-                  Text("Выйти с аккаунта",style: TextStyle(color: Colors.red,fontSize: 16),),
+                  const Icon(Icons.logout,color: Colors.red,size: 20,),
+                  const SizedBox(width: 8),
+                  const Text("Выйти с аккаунта",style: TextStyle(color: Colors.red,fontSize: 16),),
                   SizedBox(height: height(context)*.1,)
                 ],
               ),

@@ -1,9 +1,9 @@
 import 'package:courier_app/feature/courier/data/repositories/courier_repository_impl.dart';
 import 'package:courier_app/feature/courier/presentation/pages/main/main_pages.dart';
-import 'package:courier_app/feature/courier/presentation/pages/main/new_orders/new_orders_page.dart';
 import 'package:courier_app/feature/courier/presentation/resources/values_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toastr/flutter_toastr.dart';
 
 class EnterAccountPage extends StatefulWidget {
   const EnterAccountPage({super.key});
@@ -18,15 +18,45 @@ class _EnterAccountPageState extends State<EnterAccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  courierLogin()async{
+  void showSuccessToast(String message) {
+    FlutterToastr.show(
+      message,
+      context,
+      backgroundColor: Colors.green,
+      position: FlutterToastr.top,
+    );
+  }
+
+  void showErrorToast(String message) {
+    FlutterToastr.show(
+       message,
+      context,
+      backgroundColor: Colors.red,
+
+      position: FlutterToastr.top,
+    );
+  }
+
+  courierLogin() async {
     CourierRepositoryImpl repository = CourierRepositoryImpl();
-    var result  = await repository.loginWithEmailAndPassword(emailController.text, passwordController.text);
+    var result = await repository.loginWithEmailAndPassword(
+        emailController.text, passwordController.text);
     result.fold((left) {
-      return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error occured $left")));
+      showErrorToast("Error occured: $left");
+      /*ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Error occured $left"),
+        ),
+      );*/
     }, (right) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Courier login successfully")));
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const MyPages()));
+      showSuccessToast("User login successfully");
+      /* ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Courier login successfully"),
+        ),
+      );*/
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const MyPages()));
     });
   }
 
@@ -35,7 +65,6 @@ class _EnterAccountPageState extends State<EnterAccountPage> {
     // TODO: implement initState
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -110,7 +139,7 @@ class _EnterAccountPageState extends State<EnterAccountPage> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(width(context) * .02),
-                    borderSide: const BorderSide(color: Colors.blue),
+                    borderSide: const BorderSide(color: Color(0xffF5F6F8)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(width(context) * .02),
@@ -148,7 +177,7 @@ class _EnterAccountPageState extends State<EnterAccountPage> {
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(width(context) * .02),
-                    borderSide: const BorderSide(color: Colors.blue),
+                    borderSide: const BorderSide(color: Color(0xffF5F6F8)),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(width(context) * .02),
@@ -159,7 +188,7 @@ class _EnterAccountPageState extends State<EnterAccountPage> {
               SizedBox(
                 height: height(context) * .01,
               ),
-             /* Row(
+              /* Row(
                 children: [
                   Container(
                     width: width(context) * .05,
@@ -216,7 +245,6 @@ class _EnterAccountPageState extends State<EnterAccountPage> {
                 ),
                 onPressed: () {
                   courierLogin();
-          
                 },
                 child: const Text(
                   'Продолжить',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../data/repositories/courier_repository_impl.dart';
-import '../../../resources/values_manager.dart';
 
 class CompletedOrdersPage extends StatefulWidget {
   const CompletedOrdersPage({super.key});
@@ -54,7 +53,7 @@ class _CompletedOrdersPageState extends State<CompletedOrdersPage> {
             return GestureDetector(
               onTap: () {},
               child: Container(
-                margin: EdgeInsets.only(top: 12),
+                margin: const EdgeInsets.only(top: 12),
                 width: MediaQuery.of(context).size.width,
                 // height: MediaQuery.of(context).size.width * .5,
                 child: Container(
@@ -70,7 +69,7 @@ class _CompletedOrdersPageState extends State<CompletedOrdersPage> {
                         ListTile(
                           leading: Text(
                             'ID ${order["order_id"]}'.toUpperCase(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -79,24 +78,24 @@ class _CompletedOrdersPageState extends State<CompletedOrdersPage> {
                           trailing: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Color(0xffDCFCE7),
+                              color: const Color(0xffDCFCE7),
                             ),
-                            padding: EdgeInsets.all(10),
-                            child: Text(
+                            padding: const EdgeInsets.all(10),
+                            child: const Text(
                               "Доставлено",
                               style: TextStyle(color: Color(0xff15803D)),
                             ),
                           ),
                         ),
                         ListTile(
-                          leading: Container(
+                          leading: SizedBox(
                               width: 20,
                               height: 20,
                               child: Image.asset('assets/images/location.png')),
                           title: Text(order['delivery_addr_name']),
                         ),
                         ListTile(
-                          leading: Container(
+                          leading: SizedBox(
                             width: 20,
                             height: 20,
                             child: Image.asset('assets/images/calendar.png'),
@@ -109,8 +108,8 @@ class _CompletedOrdersPageState extends State<CompletedOrdersPage> {
                         ),
                         ListTile(
                           leading: Text(
-                            '+' + order['total_price'].toString() +' сум',
-                            style: TextStyle(
+                            '+${order['total_price']} сум',
+                            style: const TextStyle(
                               color: Color(0xffFF439D),
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -128,7 +127,7 @@ class _CompletedOrdersPageState extends State<CompletedOrdersPage> {
             );
           },
           itemCount: completedOrders.length,
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
         ),
       ),
     );
